@@ -1,6 +1,0 @@
-{
-  "name": "LACI GURU",
-  "description": "Aplikasi AI Asisten Guru & Perancang Modul Pembelajaran Powered by Akademi Tibersa dengan Sistem Kode Akses & Proteksi Perangkat.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
