@@ -1,0 +1,37 @@
+// Local-development bootstrap only.
+// On Vercel, this file is never executed — Vercel runs api/index.ts
+// directly as a Serverless Function. This file exists so `npm run dev`
+// and `npm start` still work when you run the project on your own
+// computer.
+import express, { Request, Response } from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createServer as createViteServer } from 'vite';
+import app from './api/_app.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const PORT = 3000;
+
+async function startServer() {
+  if (process.env.NODE_ENV !== 'production') {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = path.join(process.cwd(), 'dist');
+    app.use(express.static(distPath));
+    app.get('*', (req: Request, res: Response) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  }
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`LACI GURU Server running on http://localhost:${PORT}`);
+  });
+}
+
+startServer();
